@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zk-conf>
+<main-path>/Aimer</main-path>
+<conf-path>/conf</conf-path>
+<listen-path>/listen</listen-path>
+
+        <conf-node id="server1">
+        <ip>127.0.0.1</ip>
+        <port>1027</port>
+    </conf-node>
+
+    <conf-node id="server2">
+        <ip>127.0.0.1</ip>
+        <port>1028</port>
+    </conf-node>
+
+    <conf-node id="server3">
+        <ip>127.0.0.1</ip>
+        <port>1029</port>
+    </conf-node>
+
+    <conf-node id="server4">
+        <ip>127.0.0.1</ip>
+        <port>1030</port>
+    </conf-node>
+
+    <conf-node id="server5">
+        <ip>127.0.0.1</ip>
+        <port>1031</port>
+    </conf-node>
+
+    <conf-node id="server6">
+        <ip>127.0.0.1</ip>
+        <port>1032</port>
+    </conf-node>
+
+</zk-conf>
