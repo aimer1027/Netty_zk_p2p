@@ -2,7 +2,6 @@ package org.kylin.zhang.zookeeper;
 
 import com.sun.corba.se.spi.activation.Server;
 import org.apache.curator.framework.recipes.cache.PathChildrenCache;
-import org.apache.log4j.Logger;
 import org.kylin.zhang.beans.ServerInfo;
 import org.kylin.zhang.message.Message;
 import org.kylin.zhang.message.MessageBuilder;
@@ -21,46 +20,44 @@ import java.util.Map;
 /**
  * Created by win-7 on 2015/10/7.
  *
- * Õâ¸öÀàÖ÷ÒªÓÃÀ´½øĞĞ
- * 1. Æô¶¯ zk Â·¾¶¼à¿ØÏß³Ì
- * 2. µ÷ÓÃ ·â×°ÁË zk-dao µÄ·½·¨
+ * è¿™ä¸ªç±»ä¸»è¦ç”¨æ¥è¿›è¡Œ
+ * 1. å¯åŠ¨ zk è·¯å¾„ç›‘æ§çº¿ç¨‹
+ * 2. è°ƒç”¨ å°è£…äº† zk-dao çš„æ–¹æ³•
  *
- * ¹¦ÄÜÖ÷Òª·ÖÎª 3 ¸ö²¿·Ö:
- *  1. ¼àÌıµÄ³õÊ¼»¯ºÍÆô¶¯ÔËĞĞ----> µ¥¶ÀÏß³ÌÖ´ĞĞ
+ * åŠŸèƒ½ä¸»è¦åˆ†ä¸º 3 ä¸ªéƒ¨åˆ†:
+ *  1. ç›‘å¬çš„åˆå§‹åŒ–å’Œå¯åŠ¨è¿è¡Œ----> å•ç‹¬çº¿ç¨‹æ‰§è¡Œ
  *
- *  2. ¹© netty-server Æô¶¯Ö®Ç°£¬ ´Ó zk-server µÄÅäÖÃĞÅÏ¢Â·¾¶ÉÏÃæ»ñÈ¡ÅäÖÃĞÅÏ¢
+ *  2. ä¾› netty-server å¯åŠ¨ä¹‹å‰ï¼Œ ä» zk-server çš„é…ç½®ä¿¡æ¯è·¯å¾„ä¸Šé¢è·å–é…ç½®ä¿¡æ¯
  *
- *  3.¹© netty-server ½«×Ô¼ºĞèÒª¼àÌıµÄĞÅÏ¢×¢²áµ½ zk-server µÄ±»¼àÌıÂ·¾¶ ÉÏÃæ ÒÔ¼°£¬ ·şÎñÆ÷µÄ ½ÓÊÕÎÄ¼şµÄ×´¿öµÄÊµÊ±×¥È¡
+ *  3.ä¾› netty-server å°†è‡ªå·±éœ€è¦ç›‘å¬çš„ä¿¡æ¯æ³¨å†Œåˆ° zk-server çš„è¢«ç›‘å¬è·¯å¾„ ä¸Šé¢ ä»¥åŠï¼Œ æœåŠ¡å™¨çš„ æ¥æ”¶æ–‡ä»¶çš„çŠ¶å†µçš„å®æ—¶æŠ“å–
  *
- *  (ÊÇµÄÃ»ÓĞ´í£¬ ¼àÌıÏß³ÌÏÈÆô¶¯£¬ È»ºóÊÇ ±»¼àÌıÕßµÄĞÅÏ¢×¢²á)
+ *  (æ˜¯çš„æ²¡æœ‰é”™ï¼Œ ç›‘å¬çº¿ç¨‹å…ˆå¯åŠ¨ï¼Œ ç„¶åæ˜¯ è¢«ç›‘å¬è€…çš„ä¿¡æ¯æ³¨å†Œ)
  *
- *  4. ĞŞ¸Ä¼àÌıÂ·¾¶µÄÊ±ºò£¬ ¶ÔÓ¦´¥·¢µÄ»Øµ÷·½·¨£º¸÷ÖÖ handler
+ *  4. ä¿®æ”¹ç›‘å¬è·¯å¾„çš„æ—¶å€™ï¼Œ å¯¹åº”è§¦å‘çš„å›è°ƒæ–¹æ³•ï¼šå„ç§ handler
  */
 public class zkMonitor {
 
-    private  static Logger zkLogger = Logger.getLogger(zkMonitor.class.getName()) ;
-
-    private String zkIP ; // zk-client ĞèÒªÔ¶³Ì·ÃÎÊµÄ zk-server µÄ ip£ºport
+    private String zkIP ; // zk-client éœ€è¦è¿œç¨‹è®¿é—®çš„ zk-server çš„ ipï¼šport
     private short zkPort ;
 
     private Map<String , ServerInfo> registerServerInfoTable ;
 
-    private zkDao zkClientHandler  ; // Ô¶³Ì zk-servre ²Ù×÷´úÀí
+    private zkDao zkClientHandler  ; // è¿œç¨‹ zk-servre æ“ä½œä»£ç†
 
-    private xmlLoader xmlLoader ; // Õâ¸öÊÇÓÃÀ´´ÓÅäÖÃÎÄ¼şÖĞµ¼Èë zk ºÍ ÒªÉÏ´«µ½ ÅäÖÃÎÄ¼şÂ·¾¶ÉÏÃæ ¸÷¸ö½ÚµãµÄÅäÖÃĞÅÏ¢µÄ¼ÓÔØ¶ÔÏó
+    private xmlLoader xmlLoader ; // è¿™ä¸ªæ˜¯ç”¨æ¥ä»é…ç½®æ–‡ä»¶ä¸­å¯¼å…¥ zk å’Œ è¦ä¸Šä¼ åˆ° é…ç½®æ–‡ä»¶è·¯å¾„ä¸Šé¢ å„ä¸ªèŠ‚ç‚¹çš„é…ç½®ä¿¡æ¯çš„åŠ è½½å¯¹è±¡
 
 
-    private  String mainPath ;       // ½«ÒªÔÚ zk-server ÉÏÃæ×¢²áµÄÖ÷Â·¾¶
-    private  String confPath  ;     // /Ö÷Â·¾¶/ÅäÖÃÎÄ¼ş´æ·ÅÂ·¾¶(confPath)
-    private  String listenPath  ;  // /Ö÷Â·¾¶/¼àÌı¸÷¸ö½ÚµãĞÅÏ¢µÄÂ·¾¶
+    private  String mainPath ;       // å°†è¦åœ¨ zk-server ä¸Šé¢æ³¨å†Œçš„ä¸»è·¯å¾„
+    private  String confPath  ;     // /ä¸»è·¯å¾„/é…ç½®æ–‡ä»¶å­˜æ”¾è·¯å¾„(confPath)
+    private  String listenPath  ;  // /ä¸»è·¯å¾„/ç›‘å¬å„ä¸ªèŠ‚ç‚¹ä¿¡æ¯çš„è·¯å¾„
 
 //    private List<ServerInfo> confServerInfoList ;
-    // Õâ¸ö±äÁ¿ÓÃÀ´´æ·ÅµÄÊÇ£¬Í¨¹ı zkMonitor ×¢²áµ½ /Ö÷Â·¾¶/listend/ Â·¾¶ÏÂÃæµÄ·şÎñÆ÷µÄÃû³ÆºÍÅäÖÃĞÅÏ¢
-    // ½«´Ó zk-conf.xml  ÎÄ¼şÖĞ»ñÈ¡µÄ ·şÎñÆ÷ÅäÖÃĞÅÏ¢ Ğ´Èëµ½Õâ¸ö±äÁ¿ÖĞÊÇ²»¶ÔµÄ£»
-    // ÒòÎª zk-server ¿ÉÄÜ±£´æ¹© server 1 ·ÃÎÊµÄÅäÖÃĞÅÏ¢£¬ µ«ÊÇÈç¹û server 1 Ã»ÓĞ³É¹¦Æô¶¯£¬ÄÇÃ´¾Í²»»á zk-server
-    // ÉÏÃæ×¢²áĞÅÏ¢ £¬Ò²¾ÍÊÇ ´æ·ÅµÄ·şÎñÆ÷ÅäÖÃĞÅÏ¢£¬ ²¢²»´ú±íÕâĞ©·şÎñÆ÷Ò»¶¨»á ±»Æô¶¯
+    // è¿™ä¸ªå˜é‡ç”¨æ¥å­˜æ”¾çš„æ˜¯ï¼Œé€šè¿‡ zkMonitor æ³¨å†Œåˆ° /ä¸»è·¯å¾„/listend/ è·¯å¾„ä¸‹é¢çš„æœåŠ¡å™¨çš„åç§°å’Œé…ç½®ä¿¡æ¯
+    // å°†ä» zk-conf.xml  æ–‡ä»¶ä¸­è·å–çš„ æœåŠ¡å™¨é…ç½®ä¿¡æ¯ å†™å…¥åˆ°è¿™ä¸ªå˜é‡ä¸­æ˜¯ä¸å¯¹çš„ï¼›
+    // å› ä¸º zk-server å¯èƒ½ä¿å­˜ä¾› server 1 è®¿é—®çš„é…ç½®ä¿¡æ¯ï¼Œ ä½†æ˜¯å¦‚æœ server 1 æ²¡æœ‰æˆåŠŸå¯åŠ¨ï¼Œé‚£ä¹ˆå°±ä¸ä¼š zk-server
+    // ä¸Šé¢æ³¨å†Œä¿¡æ¯ ï¼Œä¹Ÿå°±æ˜¯ å­˜æ”¾çš„æœåŠ¡å™¨é…ç½®ä¿¡æ¯ï¼Œ å¹¶ä¸ä»£è¡¨è¿™äº›æœåŠ¡å™¨ä¸€å®šä¼š è¢«å¯åŠ¨
 
-//= begin ====================== µÚÒ»²¿·Ö£¬ ´´½¨£¬ ³õÊ¼»¯£¬ ºÍ µ¥¶À¼àÌıÏß³ÌµÄÔËĞĞ ======================================
+//= begin ====================== ç¬¬ä¸€éƒ¨åˆ†ï¼Œ åˆ›å»ºï¼Œ åˆå§‹åŒ–ï¼Œ å’Œ å•ç‹¬ç›‘å¬çº¿ç¨‹çš„è¿è¡Œ ======================================
 
     public zkMonitor( String zkIP , short zkPort ){
 
@@ -68,23 +65,20 @@ public class zkMonitor {
         this.zkPort = zkPort ;
 
         zkClientHandler = new zkDao(zkIP , zkPort) ;
-        zkLogger.info("zkMonitor creates zkDao object ");
+
 
         registerServerInfoTable = new Hashtable<String, ServerInfo>() ;
-        zkLogger.info("zkMonitor creates netty server registers table");
+
 
         // connect zk-handler to zk-server
         zkClientHandler.connectToServer();
-        zkLogger.info("zkMonitor creates connection to remote zookeeper server");
 
-        // ´´½¨ ÅäÖÃÎÄ¼ş¼ÓÔØÆ÷
+        // åˆ›å»º é…ç½®æ–‡ä»¶åŠ è½½å™¨
 
         xmlLoader = new xmlLoader() ;
         xmlLoader.parseXML();
 
-        zkLogger.info("zkMonitor create xml configuration file loader") ;
-
-        // Í¨¹ıÅäÖÃÎÄ¼ş¼ÓÔØÆ÷À´»ñÈ¡ Ö÷Â·¾¶µÈÅäÖÃÎÄ¼şµÄÏûÏ¢
+        // é€šè¿‡é…ç½®æ–‡ä»¶åŠ è½½å™¨æ¥è·å– ä¸»è·¯å¾„ç­‰é…ç½®æ–‡ä»¶çš„æ¶ˆæ¯
 
         mainPath     = xmlLoader.getMainPath();
         confPath     = xmlLoader.getConfPath() ;
@@ -92,8 +86,8 @@ public class zkMonitor {
 
     }
 
-    // ÏÂÃæµÄ·½·¨ÊÇÔÚ zk-server ÉÏÃæ´´½¨³õÊ¼Â·¾¶µÄ
-    // ÔÚ zk-server ÉÏÃæ´´½¨µÄÂ·¾¶ÊÇĞèÒª´Ó zk-conf.xml Õâ¸öÅäÖÃÎÄ¼şÖĞ¶ÁÈ¡µÄ
+    // ä¸‹é¢çš„æ–¹æ³•æ˜¯åœ¨ zk-server ä¸Šé¢åˆ›å»ºåˆå§‹è·¯å¾„çš„
+    // åœ¨ zk-server ä¸Šé¢åˆ›å»ºçš„è·¯å¾„æ˜¯éœ€è¦ä» zk-conf.xml è¿™ä¸ªé…ç½®æ–‡ä»¶ä¸­è¯»å–çš„
 
     public void initZkServerPaths (){
 
@@ -101,42 +95,37 @@ public class zkMonitor {
         zkClientHandler.addPath(mainPath+confPath,null);
         zkClientHandler.addPath(mainPath+listenPath, null );
 
-        zkLogger.info("zkMonitor create main path "+ mainPath +" conf path "+
-                mainPath+confPath +" listen path " + mainPath+listenPath +" on zookeeper remote server ");
-        // Èç¹ûÌí¼ÓÅäÖÃĞÅÏ¢µ¼Èë¼ÓÔØµÄ»°£¬ ÔÚÕâ¸öµØ·½ÉÏ´«ÅäÖÃĞÅÏ¢
 
-        // ºÃµÄ£¬ ÔÚÕâÀï½øĞĞ¼ÓÔØ , by nas
-        // ÏÂÃæ»ñÈ¡µÄ ¶ÓÁĞÊÇ ´Ó zk-conf.xml ÅäÖÃÎÄ¼şÖĞ»ñÈ¡µÄ¶à¸ö server µÄÅäÖÃĞÅÏ¢
+        // å¦‚æœæ·»åŠ é…ç½®ä¿¡æ¯å¯¼å…¥åŠ è½½çš„è¯ï¼Œ åœ¨è¿™ä¸ªåœ°æ–¹ä¸Šä¼ é…ç½®ä¿¡æ¯
 
-        // Ò²¾ÍÊÇËµ£¬ĞèÒªÉÏ´«µ½ zk-server ÅäÖÃÎÄ¼şÂ·¾¶ÏÂÃæµÄÊı¾İÒÑ¾­´Ó ÅäÖÃÎÄ¼şÖĞ±»¼ÓÔØµ½
-        // ÄÚ´æ±äÁ¿ÖĞ
+        // å¥½çš„ï¼Œ åœ¨è¿™é‡Œè¿›è¡ŒåŠ è½½ , by nas
+        // ä¸‹é¢è·å–çš„ é˜Ÿåˆ—æ˜¯ ä» zk-conf.xml é…ç½®æ–‡ä»¶ä¸­è·å–çš„å¤šä¸ª server çš„é…ç½®ä¿¡æ¯
+
+        // ä¹Ÿå°±æ˜¯è¯´ï¼Œéœ€è¦ä¸Šä¼ åˆ° zk-server é…ç½®æ–‡ä»¶è·¯å¾„ä¸‹é¢çš„æ•°æ®å·²ç»ä» é…ç½®æ–‡ä»¶ä¸­è¢«åŠ è½½åˆ°
+        // å†…å­˜å˜é‡ä¸­
 
         List<ServerInfo> upLoadServerInfoDataList = xmlLoader.getConfDataList() ;
 
-        // ½«±»¼ĞÔÚµ½ÄÚ´æ±äÁ¿ÖĞµÄÊı¾İ£¬¶ÔÓ¦¸÷×ÔµÄ server-name ÔÚ zk-server ÉÏÃæ´´½¨Â·¾¶²¢½«
-        // ¶ÔÓ¦ server-name  µÄ ServerInfo ÉÏ´«µ½ zk-server µÄ¶ÔÓ¦Â·¾¶ÏÂÃæ
+        // å°†è¢«å¤¹åœ¨åˆ°å†…å­˜å˜é‡ä¸­çš„æ•°æ®ï¼Œå¯¹åº”å„è‡ªçš„ server-name åœ¨ zk-server ä¸Šé¢åˆ›å»ºè·¯å¾„å¹¶å°†
+        // å¯¹åº” server-name  çš„ ServerInfo ä¸Šä¼ åˆ° zk-server çš„å¯¹åº”è·¯å¾„ä¸‹é¢
 
         String prefixPathName = mainPath+confPath+'/' ;
 
         for( ServerInfo info : upLoadServerInfoDataList ){
 
-            // ºÍÇ°ÃæµÄ°æ±¾²»Í¬µÄÊÇ£¬ÔÚÕâÀï½øĞĞĞŞ¸Ä£¬ ÉÏ´«µÄÊı¾İÊÇ½« ServerInfo ½øĞĞ json »¯ ³É String
-            // È»ºó  .getByte() ---> byte [] ¶ÔÏó
+            // å’Œå‰é¢çš„ç‰ˆæœ¬ä¸åŒçš„æ˜¯ï¼Œåœ¨è¿™é‡Œè¿›è¡Œä¿®æ”¹ï¼Œ ä¸Šä¼ çš„æ•°æ®æ˜¯å°† ServerInfo è¿›è¡Œ json åŒ– æˆ String
+            // ç„¶å  .getByte() ---> byte [] å¯¹è±¡
             String pathName = prefixPathName + info.getServerName() ;
             byte [] upLoadData = JsonPacker.getJsonString( info ).getBytes() ;
 
-            // ÉÏ´«µ½ zk-server
+            // ä¸Šä¼ åˆ° zk-server
             zkClientHandler.addPath(pathName , upLoadData);
 
         }
-
-        zkLogger.info("zkMonitor already create all netty-servers conf path ");
     }
     //======  init listen =========================
-// ÊÇ zk ÓÃÀ´¼àÌı /Ö÷Â·¾¶/±»¼àÌıÂ·¾¶ ÏÂÃæµÄ×ÓÂ·¾¶µÄµ÷ÓÃ ·½·¨ £¬ Õâ¸ö·½·¨±» startListen ·½·¨Ëù µ÷ÓÃ£¬ listen step1
+// æ˜¯ zk ç”¨æ¥ç›‘å¬ /ä¸»è·¯å¾„/è¢«ç›‘å¬è·¯å¾„ ä¸‹é¢çš„å­è·¯å¾„çš„è°ƒç”¨ æ–¹æ³• ï¼Œ è¿™ä¸ªæ–¹æ³•è¢« startListen æ–¹æ³•æ‰€ è°ƒç”¨ï¼Œ listen step1
     private void listenToPath (){
-
-        zkLogger.info( "zkMonitor 's server listener is running on path " + mainPath+listenPath ) ;
 
         try {
             PathChildrenCache listenerCache = new PathChildrenCache(this.zkClientHandler.getZkClientHandler(), mainPath + listenPath, true);
@@ -153,8 +142,8 @@ public class zkMonitor {
             e.printStackTrace();
         }
     }
-    //-------------- ´Ë·½·¨Îªµ¥¶ÀÏß³ÌÔËĞĞ·½·¨£¬ Ò»µ©Æô¶¯±ã»áÍÑÀëÖ÷Ïß³Ì×Ô¼ºÔËĞĞ£¬ -------------------------
-   // ´´½¨µ¥¶ÀµÄÏß³ÌÀ´ÔËĞĞ¼àÌıÂ·¾¶µÄ·½·¨ , ½«»áµ÷ÓÃ listenToPath £¬ listen step2
+    //-------------- æ­¤æ–¹æ³•ä¸ºå•ç‹¬çº¿ç¨‹è¿è¡Œæ–¹æ³•ï¼Œ ä¸€æ—¦å¯åŠ¨ä¾¿ä¼šè„±ç¦»ä¸»çº¿ç¨‹è‡ªå·±è¿è¡Œï¼Œ -------------------------
+    // åˆ›å»ºå•ç‹¬çš„çº¿ç¨‹æ¥è¿è¡Œç›‘å¬è·¯å¾„çš„æ–¹æ³• , å°†ä¼šè°ƒç”¨ listenToPath ï¼Œ listen step2
     public void startListen(){
 
         new Thread("zookeeper_path_listener"){
@@ -168,67 +157,67 @@ public class zkMonitor {
 
     //=========== listener thread run ======================
 
-//= end ====================== µÚÒ»²¿·Ö£¬ ´´½¨£¬ ³õÊ¼»¯£¬ ºÍ µ¥¶À¼àÌıÏß³ÌµÄÔËĞĞ ========================================
+//= end ====================== ç¬¬ä¸€éƒ¨åˆ†ï¼Œ åˆ›å»ºï¼Œ åˆå§‹åŒ–ï¼Œ å’Œ å•ç‹¬ç›‘å¬çº¿ç¨‹çš„è¿è¡Œ ========================================
 
 
 
-//= begin ====================== µÚ¶ş²¿·Ö°üº¬ÁË¹© netty-server »ñÈ¡ÅäÖÃĞÅÏ¢µÄ·½·¨µÄ·â×° ================================
+//= begin ====================== ç¬¬äºŒéƒ¨åˆ†åŒ…å«äº†ä¾› netty-server è·å–é…ç½®ä¿¡æ¯çš„æ–¹æ³•çš„å°è£… ================================
 
     /**
-     * ÏÂÃæµÄ·½·¨ÊÇ´Ó zk-server µÄ /Ö÷Â·¾¶/ÅäÖÃÂ·¾¶/{server1, server2, ... } ÏÂÃæ»ñÈ¡Êı¾İ,²¢½«Êı¾İÖ±½Ó´ò°ü³É ServerInfo µÄ·½·¨£¬
-     * @param :serverName £¬ ÔÚÕâÀï£¬´«ÈëµÄÊÇ·şÎñÆ÷µÄÃû³Æ£¬²»Òª´«Èë·şÎñÆ÷ËùÔÚÂ·¾¶µÄÃû³Æ£¬ Â·¾¶Ãû¶ÔÓÚ client ¶ËÊÇ²»¿É¼ûµÄ
+     * ä¸‹é¢çš„æ–¹æ³•æ˜¯ä» zk-server çš„ /ä¸»è·¯å¾„/é…ç½®è·¯å¾„/{server1, server2, ... } ä¸‹é¢è·å–æ•°æ®,å¹¶å°†æ•°æ®ç›´æ¥æ‰“åŒ…æˆ ServerInfo çš„æ–¹æ³•ï¼Œ
+     * @param :serverName ï¼Œ åœ¨è¿™é‡Œï¼Œä¼ å…¥çš„æ˜¯æœåŠ¡å™¨çš„åç§°ï¼Œä¸è¦ä¼ å…¥æœåŠ¡å™¨æ‰€åœ¨è·¯å¾„çš„åç§°ï¼Œ è·¯å¾„åå¯¹äº client ç«¯æ˜¯ä¸å¯è§çš„
      * */
     public ServerInfo getServerConfInfoFromZkServer(String serverName ){
 
         byte [] data = zkClientHandler.getDataByPath(mainPath+confPath+'/'+serverName) ;
 
-        // data µÄÀàĞÍ¼ì²é£¬ÔÚMsgPacker »áÖ´ĞĞ£¬ Èç¹û²»ºÏ·¨£¬ÔÚ MsgPacker ÖĞ»áÅ×³öÒì³£
+        // data çš„ç±»å‹æ£€æŸ¥ï¼Œåœ¨MsgPacker ä¼šæ‰§è¡Œï¼Œ å¦‚æœä¸åˆæ³•ï¼Œåœ¨ MsgPacker ä¸­ä¼šæŠ›å‡ºå¼‚å¸¸
         ServerInfo  serverConfInfo = (ServerInfo) JsonPacker.getJsonObject(new String (data), ServerInfo.class) ;
 
         return serverConfInfo ;
     }
 
-//= end ====================== µÚ¶ş²¿·Ö°üº¬ÁË¹© netty-server »ñÈ¡ÅäÖÃĞÅÏ¢µÄ·½·¨µÄ·â×° ================================
+//= end ====================== ç¬¬äºŒéƒ¨åˆ†åŒ…å«äº†ä¾› netty-server è·å–é…ç½®ä¿¡æ¯çš„æ–¹æ³•çš„å°è£… ================================
 
 
 
-//= begin  ====================== µÚÈı²¿·Ö°üº¬ÁË¹© netty-server Ïò¼àÌıÂ·¾¶ÉÏÃæ×¢²áĞÅÏ¢µÄ·½·¨·â×°========================
-// -------------- zk Îª nettty-server Ìá¹©µÄ ½«·şÎñÆ÷½ÚµãĞÅÏ¢ ×¢²áµ½ /Ö÷Â·¾¶/±»¼àÌıÂ·¾¶/{server1, server2.... }µÄ·½·¨
+    //= begin  ====================== ç¬¬ä¸‰éƒ¨åˆ†åŒ…å«äº†ä¾› netty-server å‘ç›‘å¬è·¯å¾„ä¸Šé¢æ³¨å†Œä¿¡æ¯çš„æ–¹æ³•å°è£…========================
+// -------------- zk ä¸º nettty-server æä¾›çš„ å°†æœåŠ¡å™¨èŠ‚ç‚¹ä¿¡æ¯ æ³¨å†Œåˆ° /ä¸»è·¯å¾„/è¢«ç›‘å¬è·¯å¾„/{server1, server2.... }çš„æ–¹æ³•
     public void registerServerToRemote ( ServerInfo serverInfo ){
-   //     registerServerInfoTable.put(serverInfo.getServerName() , serverInfo) ;
+        //     registerServerInfoTable.put(serverInfo.getServerName() , serverInfo) ;
 
         byte [] uploadData = JsonPacker.getJsonString(serverInfo).getBytes() ;
 
         zkClientHandler.addPath(mainPath+listenPath+'/'+serverInfo.getServerName() , uploadData );
     }
 
-        //-------------- ÏÂÃæµÄÕâ¸ö·½·¨ÊÇÓÃÀ´½« netty-server ÉÏµÄĞÅÏ¢Í¬²½µ½ zk-server ÉÏÃæµÄ
+    //-------------- ä¸‹é¢çš„è¿™ä¸ªæ–¹æ³•æ˜¯ç”¨æ¥å°† netty-server ä¸Šçš„ä¿¡æ¯åŒæ­¥åˆ° zk-server ä¸Šé¢çš„
     public void upLoadServerInfoOnCluster( String jsonInfoString , String serverName ){
 
-           this.zkClientHandler.updateData(mainPath+listenPath+'/'+serverName , jsonInfoString.getBytes()) ;
+        this.zkClientHandler.updateData(mainPath+listenPath+'/'+serverName , jsonInfoString.getBytes()) ;
     }
 
-//= end  ====================== µÚÈı²¿·Ö°üº¬ÁË¹© netty-server Ïò¼àÌıÂ·¾¶ÉÏÃæ×¢²áĞÅÏ¢µÄ·½·¨·â×°=========================
+//= end  ====================== ç¬¬ä¸‰éƒ¨åˆ†åŒ…å«äº†ä¾› netty-server å‘ç›‘å¬è·¯å¾„ä¸Šé¢æ³¨å†Œä¿¡æ¯çš„æ–¹æ³•å°è£…=========================
 
 
 
-    //-.-begin.-.-.-.-.-.-.-.-.- ¹«¹²·½·¨.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-        //-----------ÅĞ¶ÏÊÇ·ñ³É¹¦Á¬½Óµ½·şÎñÆ÷¶Ë--------------
-        public boolean isConnect(){
-            return this.zkClientHandler.isConnect() ;
-        }
+    //-.-begin.-.-.-.-.-.-.-.-.- å…¬å…±æ–¹æ³•.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
+    //-----------åˆ¤æ–­æ˜¯å¦æˆåŠŸè¿æ¥åˆ°æœåŠ¡å™¨ç«¯--------------
+    public boolean isConnect(){
+        return this.zkClientHandler.isConnect() ;
+    }
 
-        // Õâ¸ö·½·¨ÓÃÀ´ÒÆ³ı zk µÄÖ÷Â·¾¶
+    // è¿™ä¸ªæ–¹æ³•ç”¨æ¥ç§»é™¤ zk çš„ä¸»è·¯å¾„
 
-        public void reset(){
-            zkClientHandler.deletePath(mainPath);
-        }
+    public void reset(){
+        zkClientHandler.deletePath(mainPath);
+    }
 
-    //-.-end   .-.-.-.-.-.-.-.-.-.-¹«¹²·½·¨.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
+    //-.-end   .-.-.-.-.-.-.-.-.-.-å…¬å…±æ–¹æ³•.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 
 
 
-    // ÔÚÏÂÃæ¶ÔÉÏÊöµÄ·½·¨½øĞĞ²âÊÔ
+    // åœ¨ä¸‹é¢å¯¹ä¸Šè¿°çš„æ–¹æ³•è¿›è¡Œæµ‹è¯•
     public static void main (String [] args ){
         zkMonitor zkMonitor = new zkMonitor("127.0.0.1" , (short)2181) ;
 
@@ -236,10 +225,10 @@ public class zkMonitor {
 
         zkMonitor.listenToPath(); */
 
-    zkMonitor.reset();
+        zkMonitor.reset();
     }
 
-//================== ÏÂÃæµÄ·½·¨¶ÔÓ¦µÄÊÇ zkMonitor ÖĞ¹© CacheListenerBuilder ´¥·¢µ÷ÓÃµÄº¯Êı  begin ============================
+    //================== ä¸‹é¢çš„æ–¹æ³•å¯¹åº”çš„æ˜¯ zkMonitor ä¸­ä¾› CacheListenerBuilder è§¦å‘è°ƒç”¨çš„å‡½æ•°  begin ============================
     synchronized public void addNewRegisterServer(ServerInfo newComer ){
 
         if( registerServerInfoTable.size() == 0  ){
@@ -249,9 +238,9 @@ public class zkMonitor {
         }
 
         if(registerServerInfoTable.size() >= 1){
-                System.out.println("way 2") ;
-            ServerInfo smallerServerNameInfo ; //zk ·¢ËÍÏûÏ¢µÄÏûÏ¢½ÓÊÕÕß
-            ServerInfo largerServerNameInfo ;  // zk ·¢ËÍÏûÏ¢µÄÏûÏ¢µÄÊı¾İ·â×°¶ÔÏó
+            System.out.println("way 2") ;
+            ServerInfo smallerServerNameInfo ; //zk å‘é€æ¶ˆæ¯çš„æ¶ˆæ¯æ¥æ”¶è€…
+            ServerInfo largerServerNameInfo ;  // zk å‘é€æ¶ˆæ¯çš„æ¶ˆæ¯çš„æ•°æ®å°è£…å¯¹è±¡
 
             for( String serverName : registerServerInfoTable.keySet()){
 
@@ -268,51 +257,54 @@ public class zkMonitor {
                 }
 
 
-                    // ´´½¨ÏûÏ¢¶ÔÏó
-                    Message zkOnlineMessage = MessageBuilder.getServerInfoDataInstance(MessageType.ZK_ONLINE , largerServerNameInfo) ;
+                // åˆ›å»ºæ¶ˆæ¯å¯¹è±¡
+                Message zkOnlineMessage = MessageBuilder.getServerInfoDataInstance(MessageType.ZK_ONLINE , largerServerNameInfo) ;
 
-                    zkLogger.info("zkMonitor create a message sender thread , send message to " + smallerServerNameInfo) ;
-                    // ´´½¨·¢ËÍÏûÏ¢Ïß³Ì
-                    new Thread( new zkNettyClient(zkOnlineMessage, smallerServerNameInfo) , "zk's netty-client sender thread").start();
+                System.out.println("larger name " + largerServerNameInfo.getServerName() +" smaller name " + smallerServerNameInfo.getServerName()+"  \n zk will send message to "+smallerServerNameInfo.getServerName()) ;
+                // åˆ›å»ºå‘é€æ¶ˆæ¯çº¿ç¨‹
+                new Thread( new zkNettyClient(zkOnlineMessage, smallerServerNameInfo) , "zk's netty-client sender thread").start();
 
-                    // ½«ÏûÏ¢Ìí¼Óµ½ table ÖĞ
-                    registerServerInfoTable.put(newComer.getServerName() , newComer ) ;
 
             }
 
-
+            // å°†æ¶ˆæ¯æ·»åŠ åˆ° table ä¸­
+            registerServerInfoTable.put(newComer.getServerName() , newComer ) ;
         }
     }
 
-    synchronized public void deleteRegisterServer(ServerInfo offLineServerInfo ){
-            if( registerServerInfoTable.size() == 1 ) //ËµÃ÷ÍøÂçÖĞÖ»ÓĞ×Ô¼ºÒ»¸ö½ÚµãÁË£¬ ÏÂÏßÎŞĞè¸æËßÈÎºÎÈË
-            {
-                registerServerInfoTable.remove(offLineServerInfo.getServerName()) ;
+    synchronized public void deleteRegisterServer(String serverName ){
+        if( registerServerInfoTable.size() == 1 ) //è¯´æ˜ç½‘ç»œä¸­åªæœ‰è‡ªå·±ä¸€ä¸ªèŠ‚ç‚¹äº†ï¼Œ ä¸‹çº¿æ— éœ€å‘Šè¯‰ä»»ä½•äºº
+        {
+            registerServerInfoTable.remove(serverName) ;
+        }
+        else{
+
+            System.out.println() ;
+            // é¦–å…ˆï¼Œè¦æŠŠè¿™ä¸ªå³å°†ä¸‹çº¿çš„èŠ‚ç‚¹ ä» æ³¨å†Œè¡¨ä¸­ç§»é™¤
+            ServerInfo offLineServerInfo = registerServerInfoTable.get(serverName) ;
+
+            registerServerInfoTable.remove(serverName) ;
+
+            // å› ä¸ºä¸€ä¸ªæ¶ˆæ¯çš„ç±»å‹å’ŒåŠ è½½çš„æ•°æ®ä¸å˜ï¼Œ æ‰€ä»¥åˆ›å»ºä¸€ä¸ª å¤šæ¬¡å‘é€å³å¯ï¼Œæ— éœ€åˆ›å»ºå¤šæ¬¡
+            Message message = MessageBuilder.getServerInfoDataInstance(MessageType.ZK_OFFLINE , offLineServerInfo)  ;
+
+            // ç„¶åè¦æŠŠæ¶ˆæ¯å‘Šè¯‰ç»™ registerServerInfoTable ä¸­å‰©ä½™çš„æ¯ä¸€ä¸ªæœåŠ¡å™¨
+            for( String key : registerServerInfoTable.keySet() ){
+
+                // 1. è·å– server-info æ•°æ®
+                ServerInfo  receiver = registerServerInfoTable.get(key) ;
+
+                // 2. åˆ›å»ºéœ€è¦å‘é€çš„ Message:param 1 æ¶ˆæ¯ç±»å‹ ï¼Œ param 2 éœ€è¦æ ¼å¼åŒ–çš„æ¶ˆæ¯
+                // å·²ç»åœ¨ä¸Šé¢åˆ›å»ºå¥½äº†
+
+                // 3. ç°åœ¨èµ·ä¸€ä¸ªçº¿ç¨‹å°†æ¶ˆæ¯å‘é€ç»™ receiver å¯¹åº”çš„æœåŠ¡å™¨
+               new Thread ( new zkNettyClient(message, receiver) , "send zk off-line message to every server on line").start();
+
             }
-            else{
-                // Ê×ÏÈ£¬Òª°ÑÕâ¸ö¼´½«ÏÂÏßµÄ½Úµã ´Ó ×¢²á±íÖĞÒÆ³ı
-                registerServerInfoTable.remove(offLineServerInfo.getServerName()) ;
-
-                // ÒòÎªÒ»¸öÏûÏ¢µÄÀàĞÍºÍ¼ÓÔØµÄÊı¾İ²»±ä£¬ ËùÒÔ´´½¨Ò»¸ö ¶à´Î·¢ËÍ¼´¿É£¬ÎŞĞè´´½¨¶à´Î
-                Message message = MessageBuilder.getServerInfoDataInstance(MessageType.ZK_OFFLINE , offLineServerInfo)  ;
-
-                // È»ºóÒª°ÑÏûÏ¢¸æËß¸ø registerServerInfoTable ÖĞÊ£ÓàµÄÃ¿Ò»¸ö·şÎñÆ÷
-                for( String key : registerServerInfoTable.keySet() ){
-
-                    // 1. »ñÈ¡ server-info Êı¾İ
-                    ServerInfo  receiver = registerServerInfoTable.get(key) ;
-
-                    // 2. ´´½¨ĞèÒª·¢ËÍµÄ Message:param 1 ÏûÏ¢ÀàĞÍ £¬ param 2 ĞèÒª¸ñÊ½»¯µÄÏûÏ¢
-                    // ÒÑ¾­ÔÚÉÏÃæ´´½¨ºÃÁË
-
-                    // 3. ÏÖÔÚÆğÒ»¸öÏß³Ì½«ÏûÏ¢·¢ËÍ¸ø receiver ¶ÔÓ¦µÄ·şÎñÆ÷
-                    new Thread ( new zkNettyClient(message, receiver) , "send zk off-line message to every server on line").start();
-
-                }
-            }
+        }
     }
 
-//================== ÏÂÃæµÄ·½·¨¶ÔÓ¦µÄÊÇ zkMonitor ÖĞ¹© CacheListenerBuilder ´¥·¢µ÷ÓÃµÄº¯Êı  end   ============================
+//================== ä¸‹é¢çš„æ–¹æ³•å¯¹åº”çš„æ˜¯ zkMonitor ä¸­ä¾› CacheListenerBuilder è§¦å‘è°ƒç”¨çš„å‡½æ•°  end   ============================
 
 
 
@@ -366,4 +358,13 @@ public class zkMonitor {
     public void setZkPort(short zkPort) {
         this.zkPort = zkPort;
     }
+
+    // this is the final run method , when create an instance , run this
+    // it will get everything done
+
+    public void runZkMonitor (){
+        this.initZkServerPaths();
+        this.startListen();
+    }
+
 }

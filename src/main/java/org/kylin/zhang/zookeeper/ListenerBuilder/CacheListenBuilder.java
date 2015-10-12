@@ -18,26 +18,47 @@ public class CacheListenBuilder {
         PathChildrenCacheListener listener = new PathChildrenCacheListener() {
             public void childEvent(CuratorFramework client, PathChildrenCacheEvent event) throws Exception {
 
+ //               System.out.println("here throws an exception , check the event ") ;
 
-                // Ê×ÏÈ»ñµÃÂ·¾¶Ãû³Æ
-                String pathName = event.getData().getPath() ;
+                // ï¿½ï¿½ï¿½È»ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+          //   System.out.println(" something happen " + event.getType()) ;
 
-               System.out.println(" something happen " + event.getType()) ;
 
-                // È»ºó½Ø»ñ¶ÔÓ¦Â·¾¶ÉÏÃæµÄÊı¾İÄÚÈİ
-                byte [] data = event.getData().getData() ;
 
-                // È»ºó½«Êı¾İ»¹Ô­³É ServerInfo ¶ÔÏóÊµÀı
-                ServerInfo serverInfo = (ServerInfo) JsonPacker.getJsonObject( new String (data), ServerInfo.class) ;
+                // È»ï¿½ï¿½Ø»ï¿½ï¿½Ó¦Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-                // ×îºó£¬¸ù¾İ²»Í¬µÄÊÂ¼şÀ´Çı¶¯²»Í¬µÄ·½·¨À´Ö´ĞĞ
+
+                // È»ï¿½ï¿½ï¿½ï¿½ï¿½İ»ï¿½Ô­ï¿½ï¿½ ServerInfo ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
+
+
+                // ï¿½ï¿½ó£¬¸ï¿½ï¿½İ²ï¿½Í¬ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½
 
                 switch( event.getType()){
                     case CHILD_REMOVED:{
 
-                  //      System.out.println("delete a node on path "+ pathName) ;
 
-                        monitor.deleteRegisterServer(serverInfo);
+
+             /*     //      System.out.println("delete a node on path "+ pathName) ;
+                        ServerInfo serverInfo = (ServerInfo) JsonPacker.getJsonObject( new String (data), ServerInfo.class) ;
+                        åœ¨è¿™é‡Œä½¿ç”¨ä¸Šè¿°çš„è¿™ä¸ªæ–¹æ³•æ˜¯æ— æ•ˆçš„ï¼Œ å› ä¸ºå¯¹åº”çš„ç›‘å¬è·¯å¾„ï¼Œå­˜æ”¾çš„åŸæœ¬æ˜¯ ServerInfo ä½†æ˜¯ï¼Œç”±äºæœ¬èº«ä¹Ÿå­˜æ”¾
+                        å¯¹åº”çš„ server-cluster ä¿¡æ¯ï¼Œæ‰€ä»¥ï¼Œæ—©å°±å˜æˆäº† json çŠ¶æ€æ•°å€¼äº†ï¼Œ
+
+                        ä¸è¿‡ï¼Œé€šè¿‡ zk-monitor æˆ‘ä»¬å¯ä»¥è·å–å¯¹åº”çš„ register-table çš„è®¿é—®æƒé™
+
+                        åŒæ—¶ï¼Œé€šè¿‡ å¯¹åº”å‘ç”Ÿåˆ é™¤è·¯å¾„çš„æ“ä½œï¼Œæˆ‘ä»¬å¯ä»¥è·å–è·¯å¾„çš„åç§°
+
+                        */
+                        String delPathName = event.getData().getPath() ;
+
+                        // è€Œä¸” path Name å¯¹åº”çš„æ˜¯ /Aimer/listen/<å¯¹åº”çš„serverName>
+
+                        String [] infoLine = delPathName.split("/") ;
+
+                        System.out.println("you delete " + infoLine[3]) ;
+
+                     //   ServerInfo serverInfo = monitor.getRegisterServerInfoTable().get(infoLine[2]) ;
+
+                        monitor.deleteRegisterServer(infoLine[3]);
                         break ;
                     }
                     case CHILD_UPDATED:{
@@ -47,17 +68,19 @@ public class CacheListenBuilder {
                         break ;
                     }
                     case CHILD_ADDED:{
-
+                        String pathName = event.getData().getPath() ;
+                        byte [] data = event.getData().getData() ;
+                        ServerInfo serverInfo = (ServerInfo) JsonPacker.getJsonObject( new String (data), ServerInfo.class) ;
                       System.out.println("add a new node" + pathName) ;
 
-                        // µ±½Úµã add µÄÇé¿ö·¢ÉúµÄÊ±ºò£¬Ó¦¸ÃÊÇ netty-server Í¨¹ı zk-monitor Ïò zk-server ÉÏÃæ×¢²á±»¼àÌı½ÚµãµÄÊ±ºò
+                        // ï¿½ï¿½ï¿½Úµï¿½ add ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ netty-server Í¨ï¿½ï¿½ zk-monitor ï¿½ï¿½ zk-server ï¿½ï¿½ï¿½ï¿½×¢ï¿½á±»ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ê±ï¿½ï¿½
 
-                        // Õâ¸öÊ±ºò £¬ zk-monitor Ó¦¸Ã
-                        // 1. ½«Õâ¸ö serverInfo Ìí¼Óµ½×Ô¼ºµÄ registeredServerInfoDataList ÖĞ
-                        //              ²»¹ıÌí¼ÓÖ®Ç°»¹ĞèÒª½øĞĞÅĞ¶Ï
-                        //              1.1 Èç¹û registerServerInfoDataList ²¢²»Îª¿ÕµÄ»°£¬ ¾ÍÒªÖğ¸ö±È½Ï£¬ ´´½¨Ò»¸ö ÏûÏ¢·¢ËÍÏß³ÌÊµÀı(½ö½ö¹©·¢ËÍÒ»´ÎÏûÏ¢)
-                         //                 Ïò serverName Ğ¡µÄ·şÎñÆ÷·¢ËÍ serverName ´óµÄ ServerInfo
-                        //                  ÕâÑù×öµÄÄ¿µÄÊÇÎªÁËÈÃ serverName Ğ¡µÄ·şÎñÆ÷Ö÷¶¯Ïò serverName ´óµÄ ·şÎñÆ÷ ·¢ËÍÇëÇóÎÄ¼şµÄÏûÏ¢
+                        // ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ ï¿½ï¿½ zk-monitor Ó¦ï¿½ï¿½
+                        // 1. ï¿½ï¿½ï¿½ï¿½ï¿½ serverInfo ï¿½ï¿½Óµï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ registeredServerInfoDataList ï¿½ï¿½
+                        //              ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®Ç°ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½
+                        //              1.1 ï¿½ï¿½ï¿½ registerServerInfoDataList ï¿½ï¿½ï¿½ï¿½Îªï¿½ÕµÄ»ï¿½ï¿½ï¿½ ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½È½Ï£ï¿½ ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½Êµï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ï¢)
+                         //                 ï¿½ï¿½ serverName Ğ¡ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ serverName ï¿½ï¿½ï¿½ ServerInfo
+                        //                  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ serverName Ğ¡ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ serverName ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
                         monitor.addNewRegisterServer( serverInfo );
                         break ;
                     }

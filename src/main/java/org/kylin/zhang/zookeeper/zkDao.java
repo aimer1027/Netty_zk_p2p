@@ -25,8 +25,8 @@ public class zkDao {
     public void connectToServer(){
         this.zkClientHandler =
                 CuratorFrameworkFactory.builder().connectString(zkIP+":"+zkPort)
-                        .sessionTimeoutMs(30000)
-                        .connectionTimeoutMs(30000)
+                        .sessionTimeoutMs(90000)
+                        .connectionTimeoutMs(90000)
                         .canBeReadOnly(false)
                         .retryPolicy( new ExponentialBackoffRetry(1000, Integer.MAX_VALUE))
                         .defaultData(null).build() ;
@@ -41,18 +41,18 @@ public class zkDao {
         this.zkClientHandler.close();
     }
 
-    // Ïò·þÎñÆ÷ÉÏÃæÌí¼ÓÂ·¾¶
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 
     public void addPath( String pathName , byte []  upLoadData ){
         if( !isConnect ){
-            // Èç¹ûÁ¬½Ó×´Ì¬ÊÇ¶Ï¿ªµÄ»°
-            // ÖØÐÂµ÷ÓÃÁ¬½Ó·½·¨½øÐÐÔ¶³ÌÁ¬½Ó
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½Ç¶Ï¿ï¿½ï¿½Ä»ï¿½
+            // ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
             connectToServer();
         }
 
         try {
-            // ÔÚÌí¼ÓÂ·¾¶Ö®Ç°£¬Ê×ÏÈ¼ì²éÒ»ÏÂÂ·¾¶ÊÇ·ñ´æÔÚ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½Ö®Ç°ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½ï¿½Ò»ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
             zkClientHandler.create()
                     .creatingParentsIfNeeded()
                     .forPath(pathName , upLoadData) ;
@@ -65,7 +65,7 @@ public class zkDao {
 
     }
 
-    // ½«Â·¾¶ºÍÊý¾Ý´ÓÔ¶³Ì zk-server ÉÏÃæ½øÐÐÒÆ³ý
+    // ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½Ô¶ï¿½ï¿½ zk-server ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ³ï¿½
     public void deletePath(String pathName ){
         if(!isConnect){
             connectToServer();
@@ -87,7 +87,7 @@ public class zkDao {
     }
 
 
-    // ÏÂÃæµÄ·½·¨ÓÃÓÚ¸üÐÂ zk-server ÉÏÃæ¶ÔÓ¦Â·¾¶ÉÏ±£´æµÄÊý¾Ý
+    // ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ zk-server ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦Â·ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public void updateData(String pathName , byte [] upLoadData){
 
         if( !isConnect){
@@ -113,7 +113,7 @@ public class zkDao {
         }
     }
 
-    // ²éÕÒ¶ÔÓ¦Â·¾¶ÉÏÃæµÄÊý¾ÝÐÅÏ¢
+    // ï¿½ï¿½ï¿½Ò¶ï¿½Ó¦Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
    public byte [] getDataByPath(String pathName ){
 
        byte [] data ;
@@ -123,7 +123,7 @@ public class zkDao {
        }
 
        try {
-           // 1. ¼ì²éÂ·¾¶ÊÇ·ñ´æÔÚ
+           // 1. ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
            if (zkClientHandler.checkExists().forPath(pathName) == null) {
                System.out.println("path " + pathName+  " does not exists , failed to get data on path") ;
                return null ;

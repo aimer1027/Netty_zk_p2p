@@ -31,7 +31,7 @@ public class tempFileTable {
 
     // 下面的这个方法，被用在 netty server 在接收到包含 FileData 为数据段的 Message 之后
     // 将 Message 中的数据段信息 FileData 提取出来之后，用来更新
-    synchronized public void addNewFileInfo ( FileData fileData){
+     public void addNewFileInfo ( FileData fileData){
         int localFileLen = 0 ;
         String key = fileData.getSenderName()+fileData.getFileName() ;
 
@@ -58,7 +58,8 @@ public class tempFileTable {
 
     // 下面的这个方法用来将 接收完整的文件 从缓冲队列中进行移除，判断移除条件是；文件当前的长度 = 文件的总长度
     // 同时必须满足的另外一个条件就是， 当前 list 中包含的元素个数 > 10 个
-    synchronized public void resizeTempFileList (){
+    // ??方法?引起 error
+      public void resizeTempFileList (){
         for(String key : recvFileList.keySet()){
             FileInfo info = recvFileList.get(key) ;
 

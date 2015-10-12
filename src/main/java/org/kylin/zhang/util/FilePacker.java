@@ -15,32 +15,32 @@ import java.util.List;
 /**
  * Created by win-7 on 2015/10/6.
  *
- * Õâ¸öÀàÖÐÌá¹©µÄ¾²Ì¬·½·¨
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½Ä¾ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½
  *
  * public static  List<Message> getMessageListFromFile(String filePath ) ;
  *
- * ÊÇÓÃÀ´½«Ò»¸ö ÎÄ¼þ ×ª»»³ÉÒ»¸öÓÉ ¶à¸ö Message  Message ÁÐ±íµÄ/list
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ ï¿½Ä¼ï¿½ ×ªï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Message  Message ï¿½Ð±ï¿½ï¿½/list
  *
  */
 
 /**
- * ËµÃ÷£º ¶ÔÓÚ message ÖÐ¿ÉÒÔÐ¯´øµÄÊý¾ÝÄÚÈÝ´óÐ¡£¬Ò²¾ÍÊÇÒ»¸ö message ÖÐ×î¶à¿ÉÒÔ·â×°¶àÉÙ¸ö×Ö½Ú À´×ÔÎÄ¼þÖÐµÄÊý¾Ý
+ * Ëµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ message ï¿½Ð¿ï¿½ï¿½ï¿½Ð¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½Ð¡ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ message ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô·ï¿½×°ï¿½ï¿½ï¿½Ù¸ï¿½ï¿½Ö½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
  *  Message --->
- *  ÀàÐÍ£º 1 ¸ö×Ö½Ú
- *  ³¤¶È: 2 ¸ö×Ö½Ú
- *          ÆäÓàÄÚÈÝ¾ùÊÇ byte [] data
+ *  ï¿½ï¿½ï¿½Í£ï¿½ 1 ï¿½ï¿½ï¿½Ö½ï¿½
+ *  ï¿½ï¿½ï¿½ï¿½: 2 ï¿½ï¿½ï¿½Ö½ï¿½
+ *          ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½ï¿½ï¿½ byte [] data
  *
- *  ¶ÔÓÚ·¢ËÍ ÎÄ¼þÊý¾ÝµÄ ÏûÏ¢·â×°²½Öè
+ *  ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ýµï¿½ ï¿½ï¿½Ï¢ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½
  *
- *  1. ´´½¨ºÃ Message ¶ÔÏó£¬´´½¨ºÃ FileData <½« FileData ÖÐµÄ³ÉÔ±·½·¨³ýÁË byte [] ³ÉÔ±±äÁ¿ÆäËûµÄÄÚÈÝ¾ù³õÊ¼»¯ºÃ>
- *  2. È»ºóµ÷ÓÃ Message µÄ½øÐÐ¶ÔÏóÐòÁÐ»¯µÄ·½·¨£¬À´°Ñ FileData ÖÃÓÚ Message ¶ÔÏóÖÐ£¬
- *  3. Í¨¹ý Message ÖÐµÄ getRemainBytes µÄ·½·¨À´»ñÈ¡ ¿ÕÏÐµÄ×Ö½ÚÊýÄ¿ remainedBytes
- *  4. ´ÓÎÄ¼þÖÐ¶ÁÈ¡ remainedBytes µÄ byte[] data ÄÚÈÝ£¬ ½«ÆäÐ´Èëµ½ FileData ¶ÔÏóÖÐ
- *  5. È»ºóÖØÐÂÍ¨¹ý Message ÐòÁÐ»¯¸³ÖµµÄ·½·¨£¬À´½« FileData ¶ÔÏóÖØÐÂ·ÅÖÃµ½ Message ÖÐ
- *  ÕâÑùÒ»¸ö Message ¾Í·â×°ºÃÁË£¬ ²»¹ýÐèÒªµ¥¶ÀµÄ²âÊÔÒ»ÏÂ£¬ ²âÊÔ·½·¨
+ *  1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Message ï¿½ï¿½ï¿½ó£¬´ï¿½ï¿½ï¿½ï¿½ï¿½ FileData <ï¿½ï¿½ FileData ï¿½ÐµÄ³ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ byte [] ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½>
+ *  2. È»ï¿½ï¿½ï¿½ï¿½ï¿½ Message ï¿½Ä½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ FileData ï¿½ï¿½ï¿½ï¿½ Message ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½
+ *  3. Í¨ï¿½ï¿½ Message ï¿½Ðµï¿½ getRemainBytes ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ö½ï¿½ï¿½ï¿½Ä¿ remainedBytes
+ *  4. ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ð¶ï¿½È¡ remainedBytes ï¿½ï¿½ byte[] data ï¿½ï¿½ï¿½Ý£ï¿½ ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ëµ½ FileData ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ *  5. È»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ Message ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½Öµï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ FileData ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½Ãµï¿½ Message ï¿½ï¿½
+ *  ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ Message ï¿½Í·ï¿½×°ï¿½ï¿½ï¿½Ë£ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½Ò»ï¿½Â£ï¿½ ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½
  *
  *
- *  6. ¶ø¿ØÖÆÑ­»·ÊÇ·ñ½áÊøµÄ±ãÊÇ£¬±ãÊÇ£¬ÎÄ¼þÊÇ·ñ»¹ÓÐÃ»ÓÐ¶ÁÈ¡µÄ×Ö½Ú
+ *  6. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½Ä¼ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ã»ï¿½Ð¶ï¿½È¡ï¿½ï¿½ï¿½Ö½ï¿½
  *
  *   FileDataMessagePacker_Tester
  * */
@@ -48,7 +48,7 @@ public class FilePacker {
 
 
     public static List<Message> getMessageListForTest ( String fileName , String senderName ){
-        String filePath ="temp/"+senderName+'/'+fileName ;
+        String filePath ="data/"+senderName+'/'+fileName ;
 
         List<Message> messageList = new ArrayList<Message>() ;
 
@@ -57,57 +57,57 @@ public class FilePacker {
         File file =  new File ( filePath ) ;
 
         if( !file.exists()){
-            // ÎÄ¼þ²»´æÔÚ£¬Ã»·¨ÍæÁË£¬ Å×³öÒì³£
+            // ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ ï¿½×³ï¿½ï¿½ì³£
             throw new RuntimeException("can not find file "+ filePath +" does exists") ;
         }
 
         try {
 
-            // Ê×ÏÈ»ñµÃ¸ÃÎÄ¼þµÄÊä³öÁ÷¶ÔÏó
+            // ï¿½ï¿½ï¿½È»ï¿½Ã¸ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             bis = new BufferedInputStream( new FileInputStream( file)) ;
 
-            // È»ºó½øÈëµ½Ñ­»·ÖÐ
+            // È»ï¿½ï¿½ï¿½ï¿½ëµ½Ñ­ï¿½ï¿½ï¿½ï¿½
 
             do{
 
-                // Ê×ÏÈ´´½¨Ò»¸ö FileData ¶ÔÏó
+                // ï¿½ï¿½ï¿½È´ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ FileData ï¿½ï¿½ï¿½ï¿½
                 // (byte[] dataContent, int fileLenght, String fileName, int fileTotalLen, String senderName, int sendTimer)
-                FileData fileData = new FileData( null , 0 , fileName ,(int)file.length() , senderName , new Date().getDate()) ;
+                FileData fileData = new FileData( null , 0 , fileName ,(int)file.length() , senderName , new Date().getTime()) ;
 
-                // È»ºó½«Õâ¸ö FileData ¶ÔÏó½øÐÐÐòÁÐ»¯
+                // È»ï¿½ï¿½ï¿½ï¿½ï¿½ FileData ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½
                 byte tempData [] = MsgPacker.Packer(fileData , FileData.class) ;
 
-                // È»ºó´´½¨ Message ²¢½« ÐòÁÐ»¯ºÅµÄ FileData ·ÅÈëµ½ Message ÖÐ
+                // È»ï¿½ó´´½ï¿½ Message ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð»ï¿½ï¿½Åµï¿½ FileData ï¿½ï¿½ï¿½ëµ½ Message ï¿½ï¿½
                 Message message = MessageBuilder.getInstance( tempData , MessageType.SENDING_FILE) ;
 
 
-                //   È»ºó£¬µ÷ÓÃ Message µÄ·½·¨»ñÈ¡Ê£ÓàµÄ ¿ÕÏÐµÄ×Ö½Ú¸öÊý
+                //   È»ï¿½ó£¬µï¿½ï¿½ï¿½ Message ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ê£ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ö½Ú¸ï¿½ï¿½ï¿½
                 short remainByte = message.getRemainedBytes() ;
 
 
-                // ½ÓÏÂÀ´£¬´Ó´ò¿ªµÄÎÄ¼þÖÐ¶Á³öÀ´ ¶ÔÓ¦µÄ¿ÕÏÐ×Ö½Ú¸öÊý<ÔÚÕâ¸öµØ·½ÎÒÒª×öÒ»¸ö²âÊÔ£º
-                //  Èç¹ûµ±Ç°ÎÄ¼þµÄ×Ö½Ú¸öÊýÓÐ 100 ¸ö£¬ ÎÒ¶ÁÈ¡ 108 ¸öµÄ»°£¬ÊÇ·ñ»á±¨´í£¬»¹ÊÇ¶Áµ½ÎÄ¼þ½áÎ² ¾Í»á½áÊø>
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó´ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ó¦ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Ö½Ú¸ï¿½ï¿½ï¿½<ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø·ï¿½ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½
+                //  ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ö½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½ 100 ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¶ï¿½È¡ 108 ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½Ç·ï¿½á±¨ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Î² ï¿½Í»ï¿½ï¿½ï¿½ï¿½>
 
-                // ÔÚÕâÀï½øÐÐÒ»¸öÐ¡ÅÐ¶Ï: ÅÐ¶Ïµ±Ç°ÎÄ¼þÖÐ¿É¶ÁÈ¡µÄ×Ö½ÚµÄ¸öÊý ºÍ Message ÖÐÊ£Óà¿Õ¼äµÄ¸öÊý ÄÇ¸öÐ¡
-                // È¥½ÏÐ¡µÄÊýÖµÀ´´´½¨ byte[] £¬ È»ºó´ÓÎÄ¼þÖÐ¶ÁÈ¡¶ÔÓ¦¸ö×Ö½Ú¸öÊýµ½Õâ¸ö´´½¨µÄ ×Ö½ÚÊý×éÖÐ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ð¡ï¿½Ð¶ï¿½: ï¿½Ð¶Ïµï¿½Ç°ï¿½Ä¼ï¿½ï¿½Ð¿É¶ï¿½È¡ï¿½ï¿½ï¿½Ö½ÚµÄ¸ï¿½ï¿½ï¿½ ï¿½ï¿½ Message ï¿½ï¿½Ê£ï¿½ï¿½Õ¼ï¿½Ä¸ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½Ð¡
+                // È¥ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ byte[] ï¿½ï¿½ È»ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ð¶ï¿½È¡ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ö½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                 byte [] fileBytes = new byte[(remainByte > bis.available()?bis.available():remainByte)] ;
 
 
-                // ½«¶ÁÈ¡³öÀ´µÄ ×Ö½ÚÐ´Èëµ½ FileData ÖÐÈ¥£¬ È»ºóÖØÐÂÐòÁÐ»¯£¬ ½«ÐòÁÐ»¯Ö®ºóµÄÊý¾ÝÐ´Èëµ½ Message ÖÐ
+                // ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½Ð´ï¿½ëµ½ FileData ï¿½ï¿½È¥ï¿½ï¿½ È»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ëµ½ Message ï¿½ï¿½
                 bis.read( fileBytes) ;
-                fileData.setDataContent(fileBytes); // ½«×Ö½ÚÄÚÈÝ·ÅÖÃµ½ FileData ¶ÔÏóÊµÀýÖÐ
-                fileData.setFileLenght( fileBytes.length); // ±ðÍüÁË¸üÐÂÎÄ¼þ¿éÖÐ´æ·ÅµÄÎÄ¼þÊý¾ÝµÄ×Ö½Ú¸öÊý
+                fileData.setDataContent(fileBytes); // ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½Ý·ï¿½ï¿½Ãµï¿½ FileData ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
+                fileData.setFileLenght( fileBytes.length); // ï¿½ï¿½ï¿½ï¿½ï¿½Ë¸ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Åµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½Ö½Ú¸ï¿½ï¿½ï¿½
 
 
-                // Ò»¸ö Message ¾Í×é¼þºÃÁË£¬ ½«Õâ¸ö Message ·Åµ½ messageList ÖÐ¼´¿É
-                // Message ÖÐµÄ setObjectBody ·½·¨»áµ÷ÓÃÐòÁÐ»¯·½·¨½«¶ÔÓ¦´«ÈëµÄ fileData ¶ÔÏó½øÐÐÐòÁÐ»¯
+                // Ò»ï¿½ï¿½ Message ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Message ï¿½Åµï¿½ messageList ï¿½Ð¼ï¿½ï¿½ï¿½
+                // Message ï¿½Ðµï¿½ setObjectBody ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ fileData ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½
                 message.setObjectBody(fileData, FileData.class);
 
                 messageList.add(message) ;
 
             } while ( bis.available()  !=0   ) ;
-            // ¶Áµ½ ÎÄ¼þ½áÎ²Ö®ºó£¬×Ô¶¯µÄÍË³öÑ­»·¼´¿É
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¼ï¿½ï¿½ï¿½Î²Ö®ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Ë³ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         } catch (Exception e ){
             e.printStackTrace();
@@ -120,7 +120,7 @@ public class FilePacker {
 
     public static List<Message> getMessageListFromFile (String fileName , String senderName ){
 
-        String filePath = "data/"+senderName+'/'+fileName ;
+        String filePath = "data/"+senderName+"/no_"+fileName ;
 
        List<Message> messageList = new ArrayList<Message>() ;
 
@@ -129,57 +129,58 @@ public class FilePacker {
         File file =  new File ( filePath ) ;
 
         if( !file.exists()){
-            // ÎÄ¼þ²»´æÔÚ£¬Ã»·¨ÍæÁË£¬ Å×³öÒì³£
+            // ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ ï¿½×³ï¿½ï¿½ì³£
             throw new RuntimeException("can not find file "+ filePath +" does exists") ;
         }
 
         try {
 
-            // Ê×ÏÈ»ñµÃ¸ÃÎÄ¼þµÄÊä³öÁ÷¶ÔÏó
+            // ï¿½ï¿½ï¿½È»ï¿½Ã¸ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             bis = new BufferedInputStream( new FileInputStream( file)) ;
 
-            // È»ºó½øÈëµ½Ñ­»·ÖÐ
+            // È»ï¿½ï¿½ï¿½ï¿½ëµ½Ñ­ï¿½ï¿½ï¿½ï¿½
 
             do{
 
-               // Ê×ÏÈ´´½¨Ò»¸ö FileData ¶ÔÏó
+               // ï¿½ï¿½ï¿½È´ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ FileData ï¿½ï¿½ï¿½ï¿½
                 // (byte[] dataContent, int fileLenght, String fileName, int fileTotalLen, String senderName, int sendTimer)
-                FileData fileData = new FileData( null , 0 , fileName ,(int)file.length() , senderName , new Date().getDate()) ;
+                FileData fileData = new FileData( null , 0 , fileName ,(int)file.length() , senderName , new Date().getTime()) ;
 
-              // È»ºó½«Õâ¸ö FileData ¶ÔÏó½øÐÐÐòÁÐ»¯
+              // È»ï¿½ï¿½ï¿½ï¿½ï¿½ FileData ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½
                 byte tempData [] = MsgPacker.Packer(fileData , FileData.class) ;
 
-              // È»ºó´´½¨ Message ²¢½« ÐòÁÐ»¯ºÅµÄ FileData ·ÅÈëµ½ Message ÖÐ
+              // È»ï¿½ó´´½ï¿½ Message ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð»ï¿½ï¿½Åµï¿½ FileData ï¿½ï¿½ï¿½ëµ½ Message ï¿½ï¿½
                 Message message = MessageBuilder.getInstance( tempData , MessageType.SENDING_FILE) ;
 
 
-              //   È»ºó£¬µ÷ÓÃ Message µÄ·½·¨»ñÈ¡Ê£ÓàµÄ ¿ÕÏÐµÄ×Ö½Ú¸öÊý
+              //   È»ï¿½ó£¬µï¿½ï¿½ï¿½ Message ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ê£ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ö½Ú¸ï¿½ï¿½ï¿½
                 short remainByte = message.getRemainedBytes() ;
 
 
-              // ½ÓÏÂÀ´£¬´Ó´ò¿ªµÄÎÄ¼þÖÐ¶Á³öÀ´ ¶ÔÓ¦µÄ¿ÕÏÐ×Ö½Ú¸öÊý<ÔÚÕâ¸öµØ·½ÎÒÒª×öÒ»¸ö²âÊÔ£º
-                //  Èç¹ûµ±Ç°ÎÄ¼þµÄ×Ö½Ú¸öÊýÓÐ 100 ¸ö£¬ ÎÒ¶ÁÈ¡ 108 ¸öµÄ»°£¬ÊÇ·ñ»á±¨´í£¬»¹ÊÇ¶Áµ½ÎÄ¼þ½áÎ² ¾Í»á½áÊø>
+              // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó´ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ó¦ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Ö½Ú¸ï¿½ï¿½ï¿½<ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø·ï¿½ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½
+                //  ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ö½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½ 100 ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¶ï¿½È¡ 108 ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½Ç·ï¿½á±¨ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Î² ï¿½Í»ï¿½ï¿½ï¿½ï¿½>
 
-                // ÔÚÕâÀï½øÐÐÒ»¸öÐ¡ÅÐ¶Ï: ÅÐ¶Ïµ±Ç°ÎÄ¼þÖÐ¿É¶ÁÈ¡µÄ×Ö½ÚµÄ¸öÊý ºÍ Message ÖÐÊ£Óà¿Õ¼äµÄ¸öÊý ÄÇ¸öÐ¡
-                // È¥½ÏÐ¡µÄÊýÖµÀ´´´½¨ byte[] £¬ È»ºó´ÓÎÄ¼þÖÐ¶ÁÈ¡¶ÔÓ¦¸ö×Ö½Ú¸öÊýµ½Õâ¸ö´´½¨µÄ ×Ö½ÚÊý×éÖÐ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ð¡ï¿½Ð¶ï¿½: ï¿½Ð¶Ïµï¿½Ç°ï¿½Ä¼ï¿½ï¿½Ð¿É¶ï¿½È¡ï¿½ï¿½ï¿½Ö½ÚµÄ¸ï¿½ï¿½ï¿½ ï¿½ï¿½ Message ï¿½ï¿½Ê£ï¿½ï¿½Õ¼ï¿½Ä¸ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½Ð¡
+                // È¥ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ byte[] ï¿½ï¿½ È»ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ð¶ï¿½È¡ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ö½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                 byte [] fileBytes = new byte[(remainByte > bis.available()?bis.available():remainByte)] ;
 
 
-                // ½«¶ÁÈ¡³öÀ´µÄ ×Ö½ÚÐ´Èëµ½ FileData ÖÐÈ¥£¬ È»ºóÖØÐÂÐòÁÐ»¯£¬ ½«ÐòÁÐ»¯Ö®ºóµÄÊý¾ÝÐ´Èëµ½ Message ÖÐ
+                // ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½Ð´ï¿½ëµ½ FileData ï¿½ï¿½È¥ï¿½ï¿½ È»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ëµ½ Message ï¿½ï¿½
                 bis.read( fileBytes) ;
-                fileData.setDataContent(fileBytes); // ½«×Ö½ÚÄÚÈÝ·ÅÖÃµ½ FileData ¶ÔÏóÊµÀýÖÐ
-                fileData.setFileLenght( fileBytes.length); // ±ðÍüÁË¸üÐÂÎÄ¼þ¿éÖÐ´æ·ÅµÄÎÄ¼þÊý¾ÝµÄ×Ö½Ú¸öÊý
+                fileData.setDataContent(fileBytes); // ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½Ý·ï¿½ï¿½Ãµï¿½ FileData ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
+                fileData.setFileLenght( fileBytes.length); // ï¿½ï¿½ï¿½ï¿½ï¿½Ë¸ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Åµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½Ö½Ú¸ï¿½ï¿½ï¿½
 
 
-            // Ò»¸ö Message ¾Í×é¼þºÃÁË£¬ ½«Õâ¸ö Message ·Åµ½ messageList ÖÐ¼´¿É
-                // Message ÖÐµÄ setObjectBody ·½·¨»áµ÷ÓÃÐòÁÐ»¯·½·¨½«¶ÔÓ¦´«ÈëµÄ fileData ¶ÔÏó½øÐÐÐòÁÐ»¯
+            // Ò»ï¿½ï¿½ Message ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Message ï¿½Åµï¿½ messageList ï¿½Ð¼ï¿½ï¿½ï¿½
+                // Message ï¿½Ðµï¿½ setObjectBody ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ fileData ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½
                 message.setObjectBody(fileData, FileData.class);
 
                 messageList.add(message) ;
 
                 } while ( bis.available()  !=0   ) ;
-            // ¶Áµ½ ÎÄ¼þ½áÎ²Ö®ºó£¬×Ô¶¯µÄÍË³öÑ­»·¼´¿É
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¼ï¿½ï¿½ï¿½Î²Ö®ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Ë³ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+
 
     } catch (Exception e ){
         e.printStackTrace();
@@ -192,14 +193,14 @@ public class FilePacker {
 
     public static FileData getFileDataObjectFromMessage ( Message message ){
 
-        // Ö»ÓÐÀàÐÍÊÇ SENDING_FILE µÄ Message ÖÐµÄÊý¾Ý×Ö¶Î²ÅÊÇ FileData ÀàÐÍµÄ
-        // ÅÐ¶ÏÀàÐÍ
+        // Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ SENDING_FILE ï¿½ï¿½ Message ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶Î²ï¿½ï¿½ï¿½ FileData ï¿½ï¿½ï¿½Íµï¿½
+        // ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½
         if( message.getType() != MessageType.SENDING_FILE ){
             System.out.println("message type not match can not parse message ") ;
             return null ;
         }
 
-        // ÀàÐÍºÏ·¨£¬ ´ÓÖÐ³éÈ¡ FileData ¶ÔÏó
+        // ï¿½ï¿½ï¿½ÍºÏ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð³ï¿½È¡ FileData ï¿½ï¿½ï¿½ï¿½
         FileData fileData = (FileData)message.getObjectBody(FileData.class) ;
         return fileData ;
     }
