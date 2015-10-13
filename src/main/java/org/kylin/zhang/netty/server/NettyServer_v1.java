@@ -86,8 +86,6 @@ public class NettyServer_v1  implements  Runnable {
     public NettyServer_v1(String serverName , zkMonitor zkMonitorHandler){
         this.serverName = serverName ;
 
-
-
         createLocalFile() ;
 
         this.zkMonitorHandler = zkMonitorHandler ;
@@ -103,58 +101,29 @@ public class NettyServer_v1  implements  Runnable {
 
     }
 
-    /**
-     * ��ʼ�� netty-server ����
-     * ��Ҫ���ܣ� ���ݹ��췽���и����� serverName ����<Զ�� zk-server �ڵ�����|���������ļ�>��ȡ�÷���������
-     * ��Ӧ�ķ�����������������Ϣ
-     * */
+
     public void initNettyServer(){
-        /**
-         * 1. ����������Ϣ������� PropsConf: ���Ĺ�������
-         *                              a. �޸������ļ��������޸ĵ�ѡ��ͬ�����ļ���
-         *                              b. �������ļ��Ӷ�Ӧ��·�������ȡ���������������ļ���
-         *                              c. ���������ļ�
-         *                              d. ɾ�������ļ�
-         *                              e. �������ļ�������µ� key-value ��
-         *
-         * 2. ��� zk-handler �Ƿ���Զ�̵� zk-server ���ӳɹ�(���Ӱ���������ķ�֧)
-         * */
 
         // 1.
         this.propsConf = new PropsConf(serverName) ;
 
         // 2.
-        if( zkMonitorHandler.isConnect()){
+        if( zkMonitorHandler!=null){
 
-            // ��Զ�̻�ȡ�Լ��������ϵ�������Ϣ
+
             serverInfo = zkMonitorHandler.getServerConfInfoFromZkServer(serverName) ;
 
-            //  ��ȡ���µ�������Ϣ֮���ȱ����������������ȸ��±��ص������ļ�
+
             propsConf.updateByServerInfo( serverInfo  );
 
 
         } else{
 
 
-            // �޷����ӵ�Զ�̻�ȡ������Ϣ
-            // ͨ�� PropsConf �����ȡ���ص������ļ�����ʼ�� ServerInfo ����
-
-            // PropsConf �ڹ��췽�����Ѿ������� ��Ӧ 'this.serverName' �������ļ���Ϣ
-            // ���ص��´����� ����ʵ����
-
             serverInfo = propsConf.getServerInfo() ;
         }
 
     }
-
-
-
-    /**
-     * ����ķ����������� Netty-server ��server �����̵߳�
-     *
-     * ������������е�λ���̣߳�
-     * */
-
 
    public void runNettyListenServer( ){
 
@@ -184,78 +153,59 @@ public class NettyServer_v1  implements  Runnable {
         runNettyListenServer();
     }
 
-    //------------------- ����ĵ��̵߳������� netty-server-listener �Ѿ�ͨ�������� --------------------
-    // ---- �����д�������ڽ��Լ��Ľڵ���Ϣע�ᵽ Զ�� zk-server ���� -------------------
+
     public void registerToZkServer(){
         zkMonitorHandler.registerServerToRemote( serverInfo );
     }
 
 
-    // ����ķ����ǲ������õķ���������֮�󽫻ᴴ��һ���µ��߳�
-    // ר��Ϊ ������ ���ɱ��� ���ļ� , ��������� ���췽���У� ��������һ���յ�
-    // ServerName �ĸ�ֵ֮�� �������ô˷������ڱ��ض�Ӧ��·������ ���� 100 ������λ�� 10K-10M ��С�ļ�
+
     private void createLocalFile(){
         FileUtil fileUtil =  new FileUtil(serverName)  ;
         fileUtil.run();
     }
 
 
-
-//------ end --------- ��ʼ������ ------------------------------------------------
-
-
- // ================================ �� netty-server-handler ���õķ��� ================================================
-
-// --- �� netty-server-handler ����  tempFileTable �ķ��� ----------------
     public void addFileDataToFileTable ( FileData fileData ){
 
-        // 1. �� FileData �����뵽 tempFileTable ��
+        // 1.
         this.tempFileTable.addNewFileInfo( fileData );
 
 
-        // 2. ͨ�� tempFileTable �еķ�������ȡ��ǰ���յ����ļ���״̬
-            // ��Ӧ�ڲ�ִ�еķ�������---> FileData ---> ��ת���� FileInfo ��ŵ� tempFileTable ��
-            // ---> ���� tempFileTable �е�ÿ��Ԫ�� ������� ServerInfoOnCluster ���� ----> ����JsonPacker
-            // ----> �� ServerInfoOnCluster �������ݸ�ʽ����  String
+        // 2.
         List<String> serverOnClusterInfoData = tempFileTable.getLastServerClusterInfo() ;
 
         String upLoadStringData = new String() ;
 
         for ( int i = 0 ; i < serverOnClusterInfoData.size() ; i++ ){
-            // ���ַ���ƴ�ӳ� String
+
             String data = serverOnClusterInfoData.get(i) ;
 
             upLoadStringData += data ;
 
-            // Ϊ�˽����ķ��㣬 ��ÿ�� info-node ֮��ʹ�� '^' ��Ϊ�ָ�����
             if( i != (serverOnClusterInfoData.size() -1) ){
                 upLoadStringData += '&' ;
             }
         }
 
-        // 3. ��״̬����ͨ�� zkMonitorHandler ͬ���� zk-server ������
+        // 3.
         this.zkMonitorHandler.upLoadServerInfoOnCluster(upLoadStringData , serverInfo.getServerName());
 
     }
 
 
-// -- �� netty-server-handler ���õķ����� �����Բ�ͬ �������� �ļ�Ƭ�Σ�׷�ӵ����� data/��ͬ�ķ���������/ ��Ӧ��·������
-// ���1 �� ������ļ��ڱ���û�б�������˵������ļ������ļ��Ŀ�ʼ���֣�֮ǰû�н��յ���; �������ֻ��Ҫ�ڶ�Ӧ��·�����洴����Ӧ���ļ��к��ļ�����
-// ���2 �� ������ļ��ڱ����Ѿ��������ˣ� ˵������ļ�������Ҫ��׷���ڶ�Ӧ��·��������ģ����ļ���д���������ķ�ʽ������Ҫ�� ׷�ӵķ�ʽ��ʵ��
+
      public void localFileAppendWriter( FileData fileData  ){
-         // ����������ȡ fileData �ķ����ߵ�����
+
          String filePrefixPath = "data/"+serverInfo.getServerName()+"_receivesFrom_"+fileData.getSenderName() ;
          File fileDir  = new File( filePrefixPath ) ;
 
-         // ͨ������ļ����Ƿ���ڣ������жϳ���ǰ�����ļ��ķ������Ƿ��������չ����Ը÷����߷��͵��ļ�
-         // ��������ڶ�Ӧ�ļ���---> �жϳ���û�н��չ��� ����: �������ļ���
-         // ������ļ��д��� ------> �жϳ�: ���չ���     ����: �޶���
-         if( !fileDir.exists()  ) // �����ڸ��ļ��У� �����ļ���
+         if( !fileDir.exists()  )
          {
              fileDir.mkdirs() ;
          }
 
-         // �ڶ�Ӧ��·�������� �Ƿ����ͬ�����ļ�
+
          String filePathName = filePrefixPath+'/'+fileData.getFileName() ;
 
          File file = new File( filePathName ) ;
@@ -263,7 +213,6 @@ public class NettyServer_v1  implements  Runnable {
 
          try{
 
-             // ����ҵ�ͬ���ļ��� ˵������ǰ��������ֹһ�ν��յ�ͬ���ļ�Ƭ�� �� ���� : ׷�ӵķ�ʽд���ļ�
              if(file.exists()){
 
                  bos = new BufferedOutputStream( new FileOutputStream(file , true )) ;
@@ -276,7 +225,6 @@ public class NettyServer_v1  implements  Runnable {
              }
              else {
 
-                 // �Ҳ������״ν����ļ�Ƭ�Σ���Ƭ�����ļ���ͷ ; ����: �ڱ��ش����ļ������� FileData �е�����д�뵽�ļ���
                 file.createNewFile() ;
 
                  bos = new BufferedOutputStream( new FileOutputStream( file , false )) ;
@@ -295,20 +243,16 @@ public class NettyServer_v1  implements  Runnable {
 
      }
 //=======================================================================================================================
-    // ����ķ������������� �����е� tempFileTable ��size ��
-    // �������������Ѿ���ɴ�����ļ���
+
 
     public void resizeTempFileTable(){
    ///     this.tempFileTable.resizeTempFileList();
     }
 
-// ����ķ���������ȡ��ǰ finger-table �е�Ԫ�ظ�����
+
     public int getFingerTableLength (){
         return this.fingerTable.size() ;
     }
-
-    //����ķ����� finger_table ����ӡ�ɾ��Ԫ�ض�Ӧ�ķ�������Ϊ�п����漰�� ���߳�ͬʱ����
-    // ����������ʹ�� synchronize �����η���
 
     synchronized  public void addToFingerTable( ServerInfo addServerInfo ){
 
@@ -316,7 +260,6 @@ public class NettyServer_v1  implements  Runnable {
             fingerTable = new Hashtable<String, ServerInfo>() ;
         }
 
-        // �����ﲻ�����ͬ�� key ��Ԫ�أ����Ǵ���ͬ�� key ����ʾ������Ϣ
         if(fingerTable.containsKey(addServerInfo.getServerName()) ){
             System.out.println("element with key " + addServerInfo.getServerName() +" already exists ! error") ;
             return ;
@@ -327,30 +270,29 @@ public class NettyServer_v1  implements  Runnable {
     }
 
     synchronized  public void removeFromFingerTable (String deleteServerInfoName ){
-        // �������һ�£� fingerTable �Ƿ�Ϊ�ջ�����û��Ԫ��
+
         if(fingerTable == null || fingerTable.size() == 0){
             System.out.println("no elements in finger-table , failed to delete element " + deleteServerInfoName) ;
+            return;
         }
 
-        // �������һ�£��Ƿ���ڶ�Ӧ��Ԫ��
         if( !fingerTable.containsKey( deleteServerInfoName)){
             System.out.println("can not find element with name " + deleteServerInfoName +" in finger table , error") ;
             return ;
         }
 
-        // ����ų���������� ɾ����ӦԪ��
         fingerTable.remove(deleteServerInfoName) ;
 
     }
 
- // ����ķ�������ֹͣ�������Ľ����Լ��ͷ���صĿռ�
+
     public void shutDownServer(){
         // 1. ����ֹͣ listener �߳�
         bossGroup.shutdownGracefully() ;
         workerGroup.shutdownGracefully() ;
 
-        // 2. �����˳�����
-        System.exit(0);
+        // 2.
+       return ;
     }
 
 
@@ -370,11 +312,15 @@ public class NettyServer_v1  implements  Runnable {
 
      new Thread( this, serverName+"thread" ).start(); ;
 
-     Thread.sleep(1000);
-
+    // here justify whether the zkMonitorHandler is null , if null it means zk-server can not access ,
+        // so no register
+    if( zkMonitorHandler !=null )
      registerToZkServer();
 
     }
 
+    public void shutDownZkMonitor(){
+        this.zkMonitorHandler.shutDown();
+    }
 }
 

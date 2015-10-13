@@ -73,6 +73,7 @@ public class zkMonitor {
         // connect zk-handler to zk-server
         zkClientHandler.connectToServer();
 
+
         // 创建 配置文件加载器
 
         xmlLoader = new xmlLoader() ;
@@ -232,13 +233,13 @@ public class zkMonitor {
     synchronized public void addNewRegisterServer(ServerInfo newComer ){
 
         if( registerServerInfoTable.size() == 0  ){
-            System.out.println("way 1 ") ;
+    //        System.out.println("way 1 ") ;
             registerServerInfoTable.put(newComer.getServerName() , newComer) ;
             return ;
         }
 
         if(registerServerInfoTable.size() >= 1){
-            System.out.println("way 2") ;
+     //       System.out.println("way 2") ;
             ServerInfo smallerServerNameInfo ; //zk 发送消息的消息接收者
             ServerInfo largerServerNameInfo ;  // zk 发送消息的消息的数据封装对象
 
@@ -260,7 +261,7 @@ public class zkMonitor {
                 // 创建消息对象
                 Message zkOnlineMessage = MessageBuilder.getServerInfoDataInstance(MessageType.ZK_ONLINE , largerServerNameInfo) ;
 
-                System.out.println("larger name " + largerServerNameInfo.getServerName() +" smaller name " + smallerServerNameInfo.getServerName()+"  \n zk will send message to "+smallerServerNameInfo.getServerName()) ;
+      //          System.out.println("larger name " + largerServerNameInfo.getServerName() +" smaller name " + smallerServerNameInfo.getServerName()+"  \n zk will send message to "+smallerServerNameInfo.getServerName()) ;
                 // 创建发送消息线程
                 new Thread( new zkNettyClient(zkOnlineMessage, smallerServerNameInfo) , "zk's netty-client sender thread").start();
 
@@ -275,7 +276,11 @@ public class zkMonitor {
     synchronized public void deleteRegisterServer(String serverName ){
         if( registerServerInfoTable.size() == 1 ) //说明网络中只有自己一个节点了， 下线无需告诉任何人
         {
+            ServerInfo selfInfo = registerServerInfoTable.get(serverName) ;
             registerServerInfoTable.remove(serverName) ;
+            Message message = MessageBuilder.getServerInfoDataInstance(MessageType.CLOSE_CONN , selfInfo ) ;
+
+            new Thread ( new zkNettyClient(message, selfInfo) , "send zk off-line message to every server on line").start();
         }
         else{
 
@@ -365,6 +370,15 @@ public class zkMonitor {
     public void runZkMonitor (){
         this.initZkServerPaths();
         this.startListen();
+
     }
 
+
+    // this method will shutdown the zk-monitor
+    public void shutDown(){
+        zkClientHandler.deletePath(mainPath);
+        zkClientHandler.closeConnect();
+        System.out.println("zk-monitor shutdown ; success exit") ;
+        System.exit(199);// exit number = 199 means exit success
+    }
 }

@@ -140,7 +140,8 @@ public class FilePacker {
 
             // Ȼ����뵽ѭ����
 
-            do{
+           //do
+            while (bis.available() != 0 ){
 
                // ���ȴ���һ�� FileData ����
                 // (byte[] dataContent, int fileLenght, String fileName, int fileTotalLen, String senderName, int sendTimer)
@@ -168,17 +169,20 @@ public class FilePacker {
 
                 // ����ȡ������ �ֽ�д�뵽 FileData ��ȥ�� Ȼ���������л��� �����л�֮�������д�뵽 Message ��
                 bis.read( fileBytes) ;
-                fileData.setDataContent(fileBytes); // ���ֽ����ݷ��õ� FileData ����ʵ����
-                fileData.setFileLenght( fileBytes.length); // �����˸����ļ����д�ŵ��ļ����ݵ��ֽڸ���
 
+                FileData fileData1 = new FileData( fileBytes , fileBytes.length , fileName ,(int)file.length() , senderName , new Date().getTime()) ;
 
             // һ�� Message ��������ˣ� ����� Message �ŵ� messageList �м���
                 // Message �е� setObjectBody ������������л���������Ӧ����� fileData ����������л�
-                message.setObjectBody(fileData, FileData.class);
+
+                byte[] msgObject = MsgPacker.Packer(fileData1 , FileData.class) ;
+
+                message.setBody(msgObject);
+              //  message.setObjectBody(fileData1, FileData.class);
 
                 messageList.add(message) ;
 
-                } while ( bis.available()  !=0   ) ;
+                }// while ( bis.available()  !=0   ) ;
             // ���� �ļ���β֮���Զ����˳�ѭ������
 
 

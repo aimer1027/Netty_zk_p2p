@@ -21,7 +21,9 @@ public class MsgPacker {
                 return packer.write(obj);
 
             }catch (Exception e){
-                throw new RuntimeException("[error MsgPacker| Packer method]") ;
+                e.printStackTrace();
+                return null ;
+       //         throw new RuntimeException("[error MsgPacker| Packer method]") ;
             }
         }
         public static Object UnPacker (byte [] bytes , Class className ) {

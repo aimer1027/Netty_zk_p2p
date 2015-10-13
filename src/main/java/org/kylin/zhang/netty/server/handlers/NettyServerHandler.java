@@ -71,6 +71,7 @@ public class NettyServerHandler extends ChannelHandlerAdapter{
         if( recvMessage.getType() == MessageType.CLOSE_CONN){
 
             // 该类型的消息的数据段存放着的是 ServerInfo: dataServerInfo
+            // 也有可能是， zk-monitor 发送过来的，自己即将关闭的消息
 
             // 1. 从 Messsage 中抽取 接收到自己即将关闭消息的 ServerInfo 对象
             ServerInfo dataServerInfo = (ServerInfo) recvMessage.getObjectBody(ServerInfo.class) ;
@@ -88,6 +89,11 @@ public class NettyServerHandler extends ChannelHandlerAdapter{
             //      如果没有元素了，将 shutDown--> true
             if(nettyServerHandler.getFingerTableLength() == 0){
                 shutDown = true ; // 这个变量将会在 channelReadComplete 中控制 当前 NettyServer 服务器的运行和停止
+            }
+
+            // 判断当前的这个服务器是否是最后一个，如果是，关闭 zk-monitor 中的线程
+            if( dataServerInfo.getServerName().equals( nettyServerHandler.getServerName())){
+                nettyServerHandler.shutDownZkMonitor();
             }
         }
 
@@ -192,7 +198,7 @@ public class NettyServerHandler extends ChannelHandlerAdapter{
 
             List<Message> messageList = null ;
 
-            for( int i = 0 ; i < 2 ; i++ ){
+            for( int i = 0 ; i < 10 ; i++ ){
 
                 /**
                  * 运行了这么多多次，终于找到问题所在了，
@@ -217,7 +223,7 @@ public class NettyServerHandler extends ChannelHandlerAdapter{
           //      System.out.println("send all message of file "+fileName+ " to peer ") ;
             }
 
-            System.out.println("["+nettyServerHandler.getServerName()+" ]" +"---------- finish sending file to peer---------") ;
+//            System.out.println("["+nettyServerHandler.getServerName()+" ]" +"---------- finish sending file to peer---------") ;
 
 
             // 在将本地的 10 个随机文件全部发送到对等端之后，
@@ -269,6 +275,7 @@ public class NettyServerHandler extends ChannelHandlerAdapter{
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         if(shutDown ){
             // 调用方法停止 NettyServer 的对象实例
+            System.out.println("server "+ nettyServerHandler.getServerName() +" will shutdown") ;
             this.nettyServerHandler.shutDownServer();
         }
     }

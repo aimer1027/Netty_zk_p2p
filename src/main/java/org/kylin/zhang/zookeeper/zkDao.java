@@ -1,8 +1,11 @@
 package org.kylin.zhang.zookeeper;
 
+import org.apache.curator.CuratorZookeeperClient;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.retry.RetryNTimes;
 
 /**
  * Created by win-7 on 2015/10/7.
@@ -34,7 +37,8 @@ public class zkDao {
         // create connection to the zk server
         zkClientHandler.start();
 
-        if(zkClientHandler != null ) isConnect= true ;
+
+        if(zkClientHandler.getState() == CuratorFrameworkState.STARTED ) isConnect= true ;
     }
 
     public void closeConnect(){
